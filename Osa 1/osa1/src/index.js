@@ -5,25 +5,33 @@ const Otsikko = (props) => {
     return (
         <h1>{props.kurssi}</h1>
     )
-  }
+}
 
-  const Sisalto = (props) => {
+const Osa = (props) => {
     return (
         <div>
-            <p>{props.osa1} {props.tehtavia1}</p>
-            <p>{props.osa2} {props.tehtavia2}</p>
-            <p>{props.osa3} {props.tehtavia3}</p>
+            <p>{props.osa} {props.tehtavia}</p>
         </div>
     )
-  }
+}
 
-  const Yhteensa = (props) => {
+const Sisalto = (props) => {
+    return (
+        <div>
+            <Osa osa={props.osa1} tehtavia={props.tehtavia1} />
+            <Osa osa={props.osa2} tehtavia={props.tehtavia2} />
+            <Osa osa={props.osa3} tehtavia={props.tehtavia3} />
+        </div>
+    )
+}
+
+const Yhteensa = (props) => {
     return (
         <div>
             <p>yhteensä {props.tehtavia1 + props.tehtavia2 + props.tehtavia3} tehtävää</p>
         </div>
     )
-  }
+}
 
 const App = () => {
   const kurssi = 'Half Stack -sovelluskehitys'
