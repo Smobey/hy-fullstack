@@ -6,7 +6,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       selected: 0,
-      votes: [1, 0, 0, 0, 0, 0]
+      votes: [0, 0, 0, 0, 0, 0],
+      highest_index: 0
     }
   }
 
@@ -22,6 +23,18 @@ class App extends React.Component {
         let vote_array = this.state.votes
         vote_array[this.state.selected] += 1
         this.setState({ votes: vote_array })
+
+        let highest_index = 0
+        let highest_value = 0
+        this.state.votes.forEach((value, index) => {
+            if (value > highest_value) {
+                highest_value = value
+                highest_index = index
+                console.log(value)
+            }
+        })
+        console.log("highest value: " + highest_value + " | highest index: " + highest_index)
+        this.setState({ highest_index: highest_index })
     }
 
     buttonNext = () => {
@@ -44,16 +57,27 @@ class App extends React.Component {
         )
     }
 
+    displayAnecdote = (props) => {
+        return (
+            <div>
+                {this.props.anecdotes[props.anecdote]}<br/>
+                has {this.state.votes[props.anecdote]} votes
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
                 <h2>
-                {this.props.anecdotes[this.state.selected]}
-                <this.displayVotes/>
+                <this.displayAnecdote anecdote={this.state.selected}/>
                 </h2>
                 <this.buttonNext/>
                 <this.buttonVote/>
-                
+                <h1>Anecdote with the most votes:</h1>
+                <h2>
+                <this.displayAnecdote anecdote={this.state.highest_index}/>
+                </h2>
             </div>
         )
     }
