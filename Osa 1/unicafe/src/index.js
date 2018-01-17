@@ -41,8 +41,8 @@ class App extends React.Component {
 
     statistic = (props) => {
         if (props.type === "percentage")
-            return (<div> {props.name}: {props.value}% </div>)
-        return (<div> {props.name}: {props.value} </div>)
+            return (<tr><td>{props.name}:</td><td>{props.value}%</td></tr>)
+        return (<tr><td>{props.name}:</td><td>{props.value}</td></tr>)
     }
 
     displayStatistics = () => {
@@ -57,11 +57,15 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Statistiikka</h1>
+                <table>
+                <tbody>
                 <this.statistic name={"Hyvä"} value={this.state.good} type={"normal"} />
                 <this.statistic name={"Neutraali"} value={this.state.neutral} type={"normal"} />
                 <this.statistic name={"Huono"} value={this.state.bad} type={"normal"} />
                 <this.statistic name={"Keskiarvo"} value={(this.state.good - this.state.bad) / (this.state.good + this.state.neutral + this.state.bad)} type={"normal"} />
                 <this.statistic name={"Positiivisia"} value={(this.state.good / (this.state.good + this.state.neutral + this.state.bad) * 100).toFixed(2)} type={"percentage"} />
+                </tbody>
+                </table>
             </div>
         )
     }
