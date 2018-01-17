@@ -11,31 +11,40 @@ class App extends React.Component {
         }
     }
 
-    incrementGood = () => {
+    incrementValue = (type) => {
         return () => {
-            this.setState({ good: (this.state.good + 1) })
+            if (type === 1)
+                this.setState({ good: (this.state.good + 1) })
+            else if (type === 0)
+                this.setState({ neutral: (this.state.neutral + 1) })
+            else if (type === -1)
+                this.setState({ bad: (this.state.bad + 1) })
+
+
         }
     }
 
-    incrementNeutral = () => {
-        return () => {
-            this.setState({ neutral: (this.state.neutral + 1) })
-        }
+    displayAverage = () => {
+        let average = 0
+        if (this.state.good + this.state.neutral + this.state.bad !== 0)
+                average = (this.state.good - this.state.bad) / (this.state.good + this.state.neutral + this.state.bad)
+        return (<div>Keskiarvo: {average}</div>)
     }
 
-    incrementBad = () => {
-        return () => {
-            this.setState({ bad: (this.state.bad + 1) })
-        }
+    displayGoodPercentage = () => {
+        let percentage = 0
+        if (this.state.good + this.state.neutral + this.state.bad !== 0)
+                percentage = (this.state.good / (this.state.good + this.state.neutral + this.state.bad) * 100).toFixed(2)
+        return (<div>Positiivisia: {percentage}%</div>)
     }
 
     displayButtons = () => {
         return (
             <div>
                 <h1>Anna palautetta</h1>
-                <button onClick={this.incrementGood()}> hyvä </button>
-                <button onClick={this.incrementNeutral()}> neutraali </button>
-                <button onClick={this.incrementBad()}> huono </button>
+                <button onClick={this.incrementValue(1)}> hyvä </button>
+                <button onClick={this.incrementValue(0)}> neutraali </button>
+                <button onClick={this.incrementValue(-1)}> huono </button>
             </div>
         )
     }
@@ -44,11 +53,11 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Statistiikka</h1>
-                <p>
                 Hyvä: {this.state.good}<br/>
                 Neutraali: {this.state.neutral}<br/>
-                Huono: {this.state.bad}
-                </p>
+                Huono: {this.state.bad}<br/>
+                <this.displayAverage />
+                <this.displayGoodPercentage />
             </div>
         )
     }
