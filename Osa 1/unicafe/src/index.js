@@ -46,6 +46,14 @@ class App extends React.Component {
     }
 
     displayStatistics = () => {
+        if (this.state.good + this.state.neutral + this.state.bad === 0)
+            return (
+                <div>
+                    <h1>Statistiikka</h1>
+                    <p>Yhtään palautetta ei ole annettu.</p>
+                </div>
+            )
+
         return (
             <div>
                 <h1>Statistiikka</h1>
