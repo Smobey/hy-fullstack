@@ -19,45 +19,41 @@ class App extends React.Component {
                 this.setState({ neutral: (this.state.neutral + 1) })
             else if (type === -1)
                 this.setState({ bad: (this.state.bad + 1) })
-
-
         }
     }
 
-    displayAverage = () => {
-        let average = 0
-        if (this.state.good + this.state.neutral + this.state.bad !== 0)
-                average = (this.state.good - this.state.bad) / (this.state.good + this.state.neutral + this.state.bad)
-        return (<div>Keskiarvo: {average}</div>)
-    }
-
-    displayGoodPercentage = () => {
-        let percentage = 0
-        if (this.state.good + this.state.neutral + this.state.bad !== 0)
-                percentage = (this.state.good / (this.state.good + this.state.neutral + this.state.bad) * 100).toFixed(2)
-        return (<div>Positiivisia: {percentage}%</div>)
+    button = (props) => {
+        return (
+            <button onClick={this.incrementValue(props.value)}> {props.name} </button>
+        )
     }
 
     displayButtons = () => {
         return (
             <div>
                 <h1>Anna palautetta</h1>
-                <button onClick={this.incrementValue(1)}> hyvä </button>
-                <button onClick={this.incrementValue(0)}> neutraali </button>
-                <button onClick={this.incrementValue(-1)}> huono </button>
+                <this.button name={"Hyvä"} value={1} />
+                <this.button name={"Neutraali"} value={0} />
+                <this.button name={"Huono"} value={-1} />
             </div>
         )
+    }
+
+    statistic = (props) => {
+        if (props.type === "percentage")
+            return (<div> {props.name}: {props.value}% </div>)
+        return (<div> {props.name}: {props.value} </div>)
     }
 
     displayStatistics = () => {
         return (
             <div>
                 <h1>Statistiikka</h1>
-                Hyvä: {this.state.good}<br/>
-                Neutraali: {this.state.neutral}<br/>
-                Huono: {this.state.bad}<br/>
-                <this.displayAverage />
-                <this.displayGoodPercentage />
+                <this.statistic name={"Hyvä"} value={this.state.good} type={"normal"} />
+                <this.statistic name={"Neutraali"} value={this.state.neutral} type={"normal"} />
+                <this.statistic name={"Huono"} value={this.state.bad} type={"normal"} />
+                <this.statistic name={"Keskiarvo"} value={(this.state.good - this.state.bad) / (this.state.good + this.state.neutral + this.state.bad)} type={"normal"} />
+                <this.statistic name={"Positiivisia"} value={(this.state.good / (this.state.good + this.state.neutral + this.state.bad) * 100).toFixed(2)} type={"percentage"} />
             </div>
         )
     }
