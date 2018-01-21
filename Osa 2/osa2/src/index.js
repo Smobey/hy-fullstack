@@ -2,16 +2,20 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const Kurssi = (props) => {
-    const rivit = () => props.kurssi.osat.map(osa =>
+    const rivit = props.kurssi.osat.map(osa =>
         <li key={osa.id}>
             {osa.nimi} {osa.tehtavia}
         </li>
     )
 
+    const tehtavat = props.kurssi.osat.map(osa => osa.tehtavia)
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
     return (
         <div>
             <h1>{props.kurssi.nimi}</h1>
-            {rivit()}
+            {rivit}
+            yhteensä {tehtavat.reduce(reducer)} tehtävää
         </div>
     )
 }
