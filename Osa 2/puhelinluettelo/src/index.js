@@ -7,15 +7,22 @@ class App extends React.Component {
     this.state = {
       persons: [
         { name: 'Arto Hellas', number: "09 741 4143" },
-        { name: 'Heka Nuuttinen', number: "050 314 5558" }
+        { name: 'Heka Nuuttinen', number: "050 314 5558" },
+        { name: 'Martti Tienari', number: '040-123456' },
+        { name: 'Arto Järvinen', number: '040-123456' },
+        { name: 'Lea Kutvonen', number: '040-123456' }
       ],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      nameFilter: ''
     }
   }
 
   displayPersons = (props) => {
-    return(this.state.persons.map(person => <div key={person.name}>
+    const personsToShow = this.state.persons.filter(person => person.name.toLowerCase().startsWith(this.state.nameFilter.toLowerCase()))
+    console.log(personsToShow)
+
+    return(personsToShow.map(person => <div key={person.name}>
       {person.name} - {person.number}
       </div>))
   }
@@ -41,10 +48,18 @@ class App extends React.Component {
     this.setState({ newNumber: event.target.value })
   }
 
+  handleFilterChange = (event) => {
+    this.setState({ nameFilter: event.target.value })
+  }
+
   render() {
     return (
       <div>
-        <h2>Puhelinluettelo</h2>
+        <h1>Puhelinluettelo</h1>
+        <div>
+          rajaa näytetettäviä: <input value={this.state.nameFilter} onChange={this.handleFilterChange}/>
+        </div>
+        <h2>Lisää uusi</h2>
         <form onSubmit={this.addName}>
           <div>
             nimi: <input value={this.state.newName} onChange={this.handleNameChange}/>
