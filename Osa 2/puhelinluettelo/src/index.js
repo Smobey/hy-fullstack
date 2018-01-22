@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import DisplayPersons from './components/DisplayPersons'
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -16,15 +18,6 @@ class App extends React.Component {
       newNumber: '',
       nameFilter: ''
     }
-  }
-
-  displayPersons = (props) => {
-    const personsToShow = this.state.persons.filter(person => person.name.toLowerCase().startsWith(this.state.nameFilter.toLowerCase()))
-    console.log(personsToShow)
-
-    return(personsToShow.map(person => <div key={person.name}>
-      {person.name} - {person.number}
-      </div>))
   }
 
   addName = (event) => {
@@ -72,7 +65,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <this.displayPersons />
+        <DisplayPersons persons={this.state.persons} nameFilter={this.state.nameFilter} />
       </div>
     )
   }
