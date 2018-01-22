@@ -19,11 +19,15 @@ class App extends React.Component {
 
   addName = (event) => {
     event.preventDefault()
-    
+
+    const duplicate = this.state.persons.map(person => person.name).indexOf(this.state.newName) !== -1
+    if (!duplicate) {
+
     const person = {name: this.state.newName}
     const persons = this.state.persons.concat(person)
-    
+
     this.setState({persons, newName: ''})
+    }
   }
 
   handleNameChange = (event) => {
