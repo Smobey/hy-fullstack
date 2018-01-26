@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import './index.css'
+
 import DisplayPersons from './components/DisplayPersons'
 import personService from './components/Services'
+import Notification from './components/Notification'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,8 +14,16 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      nameFilter: ''
+      nameFilter: '',
+      notification: null
     }
+  }
+
+  displayNotification = (props) => {
+    this.setState({notification: props})
+    setTimeout(() => {
+      this.setState({notification: null})
+    }, 3000)
   }
 
   addName = (event) => {
@@ -29,6 +40,7 @@ class App extends React.Component {
             persons: this.state.persons.concat(response.data),
             newName: ''
           })
+          this.displayNotification("Henkilö lisätty")
         })
     } else {
       const dupe = this.state.persons.map(person => person).find((p) => p.name === person.name)
@@ -40,6 +52,7 @@ class App extends React.Component {
             .then(response => {
               this.setState({persons: response.data})
             })
+            this.displayNotification("Henkilön numero vaihdettu")
         })
     }
 
@@ -53,6 +66,7 @@ class App extends React.Component {
       .getAll()
       .then(response => {
         this.setState({persons: response.data})
+        this.displayNotification("Henkilö poistettu")
       })
     })
   }
@@ -81,6 +95,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Puhelinluettelo</h1>
+        <Notification message={this.state.notification}/>
         <div>
           rajaa näytetettäviä: <input value={this.state.nameFilter} onChange={this.handleFilterChange}/>
         </div>
