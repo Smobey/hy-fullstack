@@ -33,6 +33,18 @@ class App extends React.Component {
     }
   }
 
+  deleteName = (props) => {
+    personService
+    .remove(props)
+    .then(response => {
+      personService
+      .getAll()
+      .then(response => {
+        this.setState({persons: response.data})
+      })
+    })
+  }
+
   handleNameChange = (event) => {
     this.setState({ newName: event.target.value })
   }
@@ -73,7 +85,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <DisplayPersons persons={this.state.persons} nameFilter={this.state.nameFilter} />
+        <DisplayPersons persons={this.state.persons} nameFilter={this.state.nameFilter} onDeleteClick={this.deleteName} />
       </div>
     )
   }
