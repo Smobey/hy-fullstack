@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
 
 import DisplayPersons from './components/DisplayPersons'
+import personService from './components/Services'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,16 +21,16 @@ class App extends React.Component {
     const duplicate = this.state.persons.map(person => person.name).indexOf(this.state.newName) !== -1
     if (!duplicate) {
       const person = {name: this.state.newName, number: this.state.newNumber}
-      const persons = this.state.persons.concat(person)
-      this.setState({persons, newName: ''})
 
-      axios.post('http://localhost:3001/persons', person)
-      .then(response => {
-        console.log(response)
-      })
+      personService
+        .create(person)
+        .then(response => {
+          this.setState({
+            persons: this.state.persons.concat(response.data),
+            newName: ''
+        })
+    })
     }
-
-    
   }
 
   handleNameChange = (event) => {
@@ -46,13 +46,11 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    console.log('will mount')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        this.setState({ persons: response.data })
-      })
+    personService
+    .getAll()
+    .then(response => {
+      this.setState({persons: response.data})
+    })
   }
 
   render() {
