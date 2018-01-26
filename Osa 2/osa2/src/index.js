@@ -1,36 +1,63 @@
-import React from 'react';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      persons: [
-        { name: 'Arto Hellas' }
-      ],
-      newName: ''
-    }
-  }
+import Kurssi from './components/Kurssi'
 
-  render() {
+const Kurssit = (props) => {
+    return (
+        <div>
+            {props.kurssit.map(kurssi=><Kurssi key={kurssi.id} kurssi={kurssi}/>)}
+        </div>
+    )
+}
+
+const App = () => {
+    const kurssit = [
+        {
+          nimi: 'Half Stack -sovelluskehitys',
+          id: 1,
+          osat: [
+            {
+              nimi: 'Reactin perusteet',
+              tehtavia: 10,
+              id: 1
+            },
+            {
+              nimi: 'Tiedonvälitys propseilla',
+              tehtavia: 7,
+              id: 2
+            },
+            {
+              nimi: 'Komponenttien tila',
+              tehtavia: 14,
+              id: 3
+            }
+          ]
+        },
+        {
+          nimi: 'Node.js',
+          id: 2,
+          osat: [
+            {
+              nimi: 'Routing',
+              tehtavia: 3,
+              id: 1
+            },
+            {
+              nimi: 'Middlewaret',
+              tehtavia: 7,
+              id: 2
+            }
+          ]
+        }
+      ]
+  
     return (
       <div>
-        <h2>Puhelinluettelo</h2>
-        <form>
-          <div>
-            nimi: <input />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-        ...
+        <Kurssit kurssit={kurssit} />
       </div>
     )
   }
-}
-
-export default App
 
 ReactDOM.render(
   <App />,
