@@ -19,8 +19,8 @@ class App extends React.Component {
     }
   }
 
-  displayNotification = (props) => {
-    this.setState({notification: props})
+  displayNotification = (notification) => {
+    this.setState({notification: notification})
     setTimeout(() => {
       this.setState({notification: null})
     }, 3000)
@@ -53,6 +53,9 @@ class App extends React.Component {
               this.setState({persons: response.data})
             })
             this.displayNotification("Henkilön numero vaihdettu")
+        })
+        .catch(error => {
+          this.displayNotification("VIRHE: Henkilöä ei ole enää olemassa!")
         })
     }
 
