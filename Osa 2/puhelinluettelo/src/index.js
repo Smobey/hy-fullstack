@@ -18,19 +18,31 @@ class App extends React.Component {
   addName = (event) => {
     event.preventDefault()
 
+    const person = {name: this.state.newName, number: this.state.newNumber}
     const duplicate = this.state.persons.map(person => person.name).indexOf(this.state.newName) !== -1
-    if (!duplicate) {
-      const person = {name: this.state.newName, number: this.state.newNumber}
 
+    if (!duplicate) {
       personService
         .create(person)
         .then(response => {
           this.setState({
             persons: this.state.persons.concat(response.data),
             newName: ''
+          })
         })
-    })
+    } else {
+      const dupe = this.state.persons.map(person => person).find((p) => p.name === person.name)
+      personService
+        .update(dupe.id, person)
+        .then(response => {
+          personService
+            .getAll()
+            .then(response => {
+              this.setState({persons: response.data})
+            })
+        })
     }
+
   }
 
   deleteName = (props) => {
