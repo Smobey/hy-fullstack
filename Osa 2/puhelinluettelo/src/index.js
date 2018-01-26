@@ -4,15 +4,6 @@ import axios from 'axios'
 
 import DisplayPersons from './components/DisplayPersons'
 
-axios.get('http://localhost:3001/persons').then(response => {
-  const persons = response.data
-  console.log(persons)
-  ReactDOM.render(
-    <App persons={persons} />,
-    document.getElementById('root')
-  )
-})
-
 class App extends React.Component {
   constructor(props) {
     super(props)
