@@ -20,12 +20,17 @@ class App extends React.Component {
 
     const duplicate = this.state.persons.map(person => person.name).indexOf(this.state.newName) !== -1
     if (!duplicate) {
+      const person = {name: this.state.newName, number: this.state.newNumber}
+      const persons = this.state.persons.concat(person)
+      this.setState({persons, newName: ''})
 
-    const person = {name: this.state.newName, number: this.state.newNumber}
-    const persons = this.state.persons.concat(person)
-
-    this.setState({persons, newName: ''})
+      axios.post('http://localhost:3001/persons', person)
+      .then(response => {
+        console.log(response)
+      })
     }
+
+    
   }
 
   handleNameChange = (event) => {
